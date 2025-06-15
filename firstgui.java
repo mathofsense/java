@@ -1,7 +1,7 @@
 // File must be named after the class !!
 import javax.swing.JFrame; // use others' code
-public class MyFirstGUI {
-  public static void main(String[] args){
+public class __ChangeThis__ {
+  public void main(String[] args){
     JFrame frame = new JFrame("L");
     frame.setSize (400, 300);
     frame.setLocation (50, 50);
