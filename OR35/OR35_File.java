@@ -24,11 +24,6 @@ public class OR35_File {
 
     while (myReader.hasNextLine()) {
       String s = myReader.nextLine();
-      s = s.trim ();
-      if (s == "" || s == "exit" || s == "quit") {
-        System.exit (0);
-      }
-  
       if (or35 (s)) {
         System.out.println (s + " contains 3 or 5.");
       }
