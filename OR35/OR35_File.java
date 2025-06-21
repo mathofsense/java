@@ -17,7 +17,7 @@ public class OR35_File {
     try {
       myFile = new File(fileName); 
       myReader = new Scanner(myFile);
-    } catch (FileNotFoundException e) {
+    } catch (FileNotFoundException e) { // required
       System.out.println("The file " + fileName + " is not found.");
       System.exit (0);
     }
