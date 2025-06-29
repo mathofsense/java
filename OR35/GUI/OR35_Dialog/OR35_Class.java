@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class OR35_Class {
   public static void main (String[] args) {
-    int n = Integer.parseInt ( JOptionPane.showInputDialog ("Enter an integer"));
+    int n = Integer.parseInt ( JOptionPane.showInputDialog ("Enter an integer below. \nWe will check if it is divisible by 3 or 5."));
   
     if (or35 (n)) {
       JOptionPane.showMessageDialog (null, n + " is a multiple of 3 or 5.");
