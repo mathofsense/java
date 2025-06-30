@@ -2,15 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LightPanel extends JPanel implements KeyListener {
+public class LightPanel extends JPanel {
   enum Direction { EAST, WEST, SOUTH, NORTH };
   int click_x, click_y;
   Direction direction;
   
   public LightPanel () {
     super ();
+    setFocusable(true);   
     addMouseListener (new  MouseListener ());
-    addKeyListener (this);
+    addKeyListener (new DirListener ());
     click_x = -1;
     click_y = -1;
     direction = Direction.EAST;
@@ -55,9 +56,11 @@ public class LightPanel extends JPanel implements KeyListener {
       click_y = e.getY();
       // System.out.println("Mouse clicked at: (" + x + ", " + y + ")");
       repaint ();
+      requestFocusInWindow();
     }
   }
   
+  private class DirListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
       int key_code = e.getKeyCode();
@@ -90,5 +93,6 @@ public class LightPanel extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-    }    
+    }   
+  }   
 }
