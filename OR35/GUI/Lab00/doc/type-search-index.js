@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"ClickablePanel"},{"p":"<Unnamed>","l":"ClickablePanel.Listener"},{"p":"<Unnamed>","l":"MyFirstGUI"}];updateSearchResults();
