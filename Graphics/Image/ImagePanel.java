@@ -2,12 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LightPanel extends JPanel {
+public class ImagePanel extends JPanel {
   enum Direction { EAST, WEST, SOUTH, NORTH };
   int click_x, click_y;
   Direction direction;
+  ImageIcon img;
   
-  public LightPanel () {
+  public ImagePanel () {
     super ();
     setFocusable(true);   
     addMouseListener (new  MouseListener ());
@@ -15,9 +16,10 @@ public class LightPanel extends JPanel {
     click_x = -1;
     click_y = -1;
     direction = Direction.EAST;
+    img = new ImageIcon ("smile.png");
   }  
   
-  public void move_light () {
+  public void move_image () {
     if (click_x < 0 || click_y < 0 || click_x >= getWidth () || click_y >= getHeight ()) {
       return;
     }
@@ -42,9 +44,15 @@ public class LightPanel extends JPanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);  
+    Graphics2D g2  = (Graphics2D) g;
     if (click_x >= 0 && click_y >= 0 && click_x < getWidth () && click_y < getHeight ()) {
-      g.setColor(Color.RED);
-      g.fillOval(click_x, click_y, 100, 100); 
+      g2.setColor(Color.RED);
+      g2.setStroke (new BasicStroke (5.0f));
+      g2.drawOval(click_x, click_y, 100, 100); 
+      int img_width = img.getImage ().getWidth (null);
+      int img_height = img.getImage ().getHeight (null);
+      g.drawImage (img.getImage (), click_x + 50 - img_width / 2, 
+                   click_y + 50 - img_height / 2, null);
     }
   }
   

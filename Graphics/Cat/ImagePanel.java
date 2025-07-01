@@ -1,23 +1,41 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class LightPanel extends JPanel {
+public class ImagePanel extends JPanel {
   enum Direction { EAST, WEST, SOUTH, NORTH };
-  int click_x, click_y;
+  int click_x, click_y, radius, cat_pos;
   Direction direction;
+  BufferedImage[] img;
   
-  public LightPanel () {
+  public ImagePanel () {
     super ();
     setFocusable(true);   
     addMouseListener (new  MouseListener ());
     addKeyListener (new DirListener ());
     click_x = -1;
     click_y = -1;
+    radius = 240;
     direction = Direction.EAST;
+    cat_pos = 1;
+    img = new BufferedImage[6];
+    for (int i = 1; i <= 6; ++ i) {
+      try {
+        img[i-1] = ImageIO.read (new File ("cat" + i + ".png"));
+      }  
+      catch (IOException e) {
+        System.out.println ("Failed to read images.");
+        e.printStackTrace();
+        System.exit (0);
+      }
+    }  
   }  
   
-  public void move_light () {
+  public void move_image () {
     if (click_x < 0 || click_y < 0 || click_x >= getWidth () || click_y >= getHeight ()) {
       return;
     }
@@ -36,15 +54,24 @@ public class LightPanel extends JPanel {
         click_y -= 1;
     }
     
+    cat_pos = cat_pos % 6 + 1;
+    
     repaint ();
   }
 
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);  
+    Graphics2D g2  = (Graphics2D) g;
     if (click_x >= 0 && click_y >= 0 && click_x < getWidth () && click_y < getHeight ()) {
-      g.setColor(Color.RED);
-      g.fillOval(click_x, click_y, 100, 100); 
+      g2.setColor(Color.RED);
+      g2.setStroke (new BasicStroke (5.0f));
+      g2.drawOval(click_x, click_y, radius, radius); 
+      int cat_idx = cat_pos - 1;
+      int img_width = img[cat_idx].getWidth (null);
+      int img_height = img[cat_idx].getHeight (null);
+      g.drawImage (img[cat_idx], click_x + (radius - img_width) / 2, 
+                   click_y + (radius - img_height) / 2, null);
     }
   }
   
