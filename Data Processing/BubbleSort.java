@@ -1,4 +1,4 @@
-public class BubbleSortExample {
+public class BubbleSort {
   final static int SIZE = 20;
 
   public static void main(String[] args) {

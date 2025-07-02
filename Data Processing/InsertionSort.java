@@ -1,4 +1,4 @@
-public class InsertionSortExample {
+public class InsertionSort {
   final static int SIZE = 20;
 
   public static void main(String[] args) {
