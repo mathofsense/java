@@ -3,6 +3,8 @@ import java.util.Scanner;
 public class BoardGame {
   public static void main(String[] args) {
     char[][] board = new char[8][8];
+    Scanner scanner = new Scanner(System.in);
+
     // Initialize the board with dashes
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
@@ -10,56 +12,48 @@ public class BoardGame {
       }
     }
 
-    // Arrays to store previously entered coordinates
-    int[] prevRows = new int[64];
-    int[] prevCols = new int[64];
-    int count = 0;
-
-    Scanner scanner = new Scanner(System.in);
-
-    printBoard(board);
-
     while (true) {
-      System.out.println("Enter row (0-7) and column (0-7) separated by space (or -1 to exit):");
+      printBoard(board);
+      System.out.println("Enter coordinates (row and column) between 0 and 7, separated by space:");
       int row = scanner.nextInt();
-      if (row == -1) break;
       int col = scanner.nextInt();
 
+      // Check if coordinates are valid
       if (row < 0 || row >= 8 || col < 0 || col >= 8) {
         System.out.println("Invalid coordinates. Please enter values between 0 and 7.");
         continue;
       }
 
-      if (isInvalidMove(row, col, prevRows, prevCols, count)) {
-        System.out.println("Error: Coordinates are in the same row, column, or diagonal as a previous move. Try again.");
+      // Check if the position is already occupied
+      if (board[row][col] == 'O') {
+        System.out.println("This position is already taken. Try again.");
         continue;
       }
 
+      // Check for conflicts in row, column, or diagonal
+      boolean conflict = false;
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+          if (board[i][j] == 'O') {
+            if (i == row || j == col || Math.abs(i - row) == Math.abs(j - col)) {
+              conflict = true;
+              break;
+            }
+          }
+        }
+        if (conflict) break;
+      }
+
+      if (conflict) {
+        System.out.println("Error: Coordinates conflict with previously entered coordinates in the same row, column, or diagonal.");
+        continue;
+      }
+
+      // Place 'O' at the entered coordinates
       board[row][col] = 'O';
-      prevRows[count] = row;
-      prevCols[count] = col;
-      count++;
-
-      printBoard(board);
     }
-
-    scanner.close();
   }
 
-  // Check if the move is invalid
-  public static boolean isInvalidMove(int row, int col, int[] prevRows, int[] prevCols, int count) {
-    for (int i = 0; i < count; i++) {
-      int prevRow = prevRows[i];
-      int prevCol = prevCols[i];
-      // Same row or column
-      if (row == prevRow || col == prevCol) return true;
-      // Same diagonal
-      if (Math.abs(row - prevRow) == Math.abs(col - prevCol)) return true;
-    }
-    return false;
-  }
-
-  // Print the board
   public static void printBoard(char[][] board) {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
